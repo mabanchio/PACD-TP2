@@ -28,17 +28,23 @@ Estos datasets contienen información sobre:
 
 ## Almacenamiento y Operación de Datos
 
-### Manejo Local de Datos
+### Implementación de Base de Datos SQLite
 
-**El requisito de base de datos se maneja de forma local:** El proyecto prescinde de un motor de base de datos relacional/NoSQL externo. En su lugar, los datasets se cargan directamente y se mantienen como **DataFrames de Pandas en memoria** durante la ejecución de la notebook, optimizando la ejecución en entornos como Google Colab.
+**El proyecto implementa SQLite como base de datos local:** Los datasets se procesan y almacenan en una base de datos SQLite local (`bdd/delitos_caba.sqlite`), cumpliendo con el requisito de base de datos del proyecto. Esta implementación permite:
 
-### Pasos para la Carga de Datos en Memoria
+- **Persistencia de datos**: Los datos se mantienen almacenados entre sesiones
+- **Consultas SQL optimizadas**: Uso de consultas SQL para análisis y visualizaciones
+- **Escalabilidad**: Manejo eficiente de grandes volúmenes de datos
+- **Portabilidad**: Base de datos ligera y autocontenida
+
+### Flujo de Procesamiento de Datos
 
 1. **Descarga automática**: Los datasets se descargan automáticamente desde las URLs oficiales del gobierno de CABA
 2. **Carga en DataFrames**: Cada archivo CSV se carga en un DataFrame de Pandas individual
 3. **Concatenación**: Los cuatro DataFrames se combinan en un único DataFrame unificado
 4. **Limpieza y transformación**: Se aplican transformaciones de datos para normalizar formatos y tipos
-5. **Almacenamiento en memoria**: Los datos procesados permanecen en memoria durante toda la sesión de análisis
+5. **Almacenamiento en SQLite**: Los datos procesados se almacenan en la tabla `delitos` de la base de datos SQLite
+6. **Consultas SQL**: Todas las visualizaciones se generan mediante consultas SQL a la base de datos
 
 ## Pasos para la Ejecución y Visualización del Dashboard
 
@@ -79,12 +85,14 @@ Estos datasets contienen información sobre:
 
 ```
 PACD-TP2/
-├── TP_Análisis_de_Datos_Dashboard_Delitos_CABA.ipynb  # Notebook principal
+├── TP Análisis de Datos - Dashboard - Delitos CABA.ipynb  # Notebook principal
 ├── dataset/                                           # Datasets descargados
 │   ├── delitos_2021.csv
 │   ├── delitos_2022.csv
 │   ├── delitos_2023.csv
 │   └── delitos_2024.csv
+├── bdd/                                               # Base de datos SQLite
+│   └── delitos_caba.sqlite
 ├── html/                                              # Dashboard exportado
 │   └── dashboard_delitos_caba.html
 └── README.md                                          # Este archivo
@@ -98,6 +106,7 @@ La **Inteligencia Artificial Generativa (IAG) fue fundamental** y utilizada para
 - **Consulta, optimización y corrección de errores de código** (*debugging*)
 - Resolución de problemas de sintaxis y lógica en el procesamiento de datos
 - Optimización de funciones de transformación y limpieza de datos
+- **Implementación de SQLite**: Desarrollo de la estructura de base de datos y consultas SQL optimizadas
 
 ### 2. Implementación de Visualización
 - Apoyo en la **implementación del gráfico del mapa de calor** (*heatmap*) interactivo
@@ -133,6 +142,7 @@ Todas las visualizaciones son completamente interactivas y permiten explorar los
 ## Tecnologías Utilizadas
 
 - **Python**: Lenguaje de programación principal
+- **SQLite**: Base de datos local para almacenamiento y consultas
 - **Pandas**: Manipulación y análisis de datos
 - **Plotly**: Visualizaciones interactivas
 - **Matplotlib/Seaborn**: Visualizaciones adicionales
